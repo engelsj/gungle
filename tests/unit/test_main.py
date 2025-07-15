@@ -1,17 +1,18 @@
-from typing import Generator
-
-import pytest
 from fastapi.testclient import TestClient
 
-from src.gungle.main import app
+
+def test_root_endpoint(client: TestClient) -> None:
+    """Test root endpoint."""
+    response = client.get("/")
+    assert response.status_code == 200
+    data = response.json()
+    assert "message" in data
+    assert data["message"] == "Gungle API"
 
 
-@pytest.fixture
-def client() -> Generator[TestClient, None, None]:
-    with TestClient(app) as test_client:
-        yield test_client
-
-
-@pytest.fixture
-def test_db() -> None:
-    pass
+def test_health_check(client: TestClient) -> None:
+    """Test health check endpoint."""
+    response = client.get("/health")
+    assert response.status_code == 200
+    data = response.json()
+    assert data["status"] == "healthy"
