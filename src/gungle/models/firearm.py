@@ -35,15 +35,14 @@ class Firearm(BaseModel):
     manufacturer: str
     type: FirearmType
     caliber: str
-    actionType: str
     country_of_origin: str
     adoption_status: AdoptionStatus
     year_introduced: Optional[int] = None
-    description: str
+    description: Optional[str] = None
     image_url: Optional[str] = None
 
 
-class GuessComparison(BaseModel):
+class AttributeComparison(BaseModel):
     attribute: str
     guess_value: str
     correct_value: str
@@ -52,14 +51,17 @@ class GuessComparison(BaseModel):
 
 class GuessResult(BaseModel):
     is_correct: bool
-    comparisons: List[GuessComparison]
+    guess_firearm: Firearm  # The firearm that was guessed
+    target_firearm: Firearm  # The correct answer (only shown if game complete)
+    comparisons: List[AttributeComparison]
     remaining_guesses: int
+    game_completed: bool
 
 
 class GameSession(BaseModel):
     session_id: str
     target_firearm: Firearm
-    guesses_made: List[str]
+    guesses_made: List[str]  # List of firearm names that were guessed
     is_completed: bool
     is_won: bool
     created_at: datetime
@@ -74,15 +76,21 @@ class NewGameResponse(BaseModel):
 
 class GameStatusResponse(BaseModel):
     session_id: str
-    target_firearm_name: Optional[str]
+    target_firearm_name: Optional[str]  # Only shown when game is complete
     guesses_made: int
     max_guesses: int
     is_completed: bool
     is_won: bool
-    target_firearm: Optional[Firearm] = None
+    target_firearm: Optional[Firearm] = None  # Only shown when game is complete
+    all_guess_results: List[GuessResult] = []  # History of all guesses made
 
 
 class GameRevealResponse(BaseModel):
     target_firearm: Firearm
     guesses_made: List[str]
     is_won: bool
+    all_guess_results: List[GuessResult]
+
+
+class NameGuessRequest(BaseModel):
+    firearm_name: str
