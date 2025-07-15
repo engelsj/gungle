@@ -69,6 +69,7 @@ def test_game_session() -> None:
         type=FirearmType.RIFLE,
         caliber=".30-06",
         country_of_origin="United States",
+        actionType="TODO",
         adoption_status=AdoptionStatus.MILITARY,
     )
 

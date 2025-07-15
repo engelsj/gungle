@@ -35,6 +35,7 @@ class Firearm(BaseModel):
     manufacturer: str
     type: FirearmType
     caliber: str
+    actionType: str
     country_of_origin: str
     adoption_status: AdoptionStatus
     year_introduced: Optional[int] = None

@@ -138,6 +138,20 @@ class GameService:
             )
         )
 
+        actionType_result = (
+            ComparisonResult.CORRECT
+            if guess_firearm.actionType == target_firearm.actionType
+            else ComparisonResult.INCORRECT
+        )
+        comparisons.append(
+            GuessComparison(
+                attribute="actionType",
+                guess_value=guess_firearm.actionType,
+                correct_value=target_firearm.actionType,
+                result=actionType_result,
+            )
+        )
+
         type_result = (
             ComparisonResult.CORRECT
             if guess_firearm.type == target_firearm.type

@@ -19,6 +19,7 @@ class FirearmService:
                 "country_of_origin": "United States",
                 "adoption_status": AdoptionStatus.MILITARY,
                 "year_introduced": 1936,
+                "action_type": "TODO",
                 "image_url": "/uploads/images/m1_garand.jpg",
             },
             {
@@ -30,6 +31,7 @@ class FirearmService:
                 "country_of_origin": "Soviet Union",
                 "adoption_status": AdoptionStatus.MILITARY,
                 "year_introduced": 1947,
+                "action_type": "TODO",
                 "image_url": "/uploads/images/ak47.jpg",
             },
             {
@@ -41,6 +43,7 @@ class FirearmService:
                 "country_of_origin": "Germany",
                 "adoption_status": AdoptionStatus.MILITARY,
                 "year_introduced": 1940,
+                "action_type": "TODO",
                 "image_url": "/uploads/images/mp40.jpg",
             },
             {
@@ -52,6 +55,7 @@ class FirearmService:
                 "country_of_origin": "United States",
                 "adoption_status": AdoptionStatus.BOTH,
                 "year_introduced": 1911,
+                "action_type": "TODO",
                 "image_url": "/uploads/images/colt_1911.jpg",
             },
             {
@@ -63,6 +67,7 @@ class FirearmService:
                 "country_of_origin": "United States",
                 "adoption_status": AdoptionStatus.BOTH,
                 "year_introduced": 1928,
+                "action_type": "TODO",
                 "image_url": "/uploads/images/thompson.jpg",
             },
             {
@@ -74,6 +79,7 @@ class FirearmService:
                 "country_of_origin": "United Kingdom",
                 "adoption_status": AdoptionStatus.MILITARY,
                 "year_introduced": 1895,
+                "action_type": "TODO",
                 "image_url": "/uploads/images/lee_enfield.jpg",
             },
             {
@@ -85,6 +91,7 @@ class FirearmService:
                 "country_of_origin": "Germany",
                 "adoption_status": AdoptionStatus.MILITARY,
                 "year_introduced": 1935,
+                "action_type": "TODO",
                 "image_url": "/uploads/images/kar98k.jpg",
             },
             {
@@ -96,6 +103,7 @@ class FirearmService:
                 "country_of_origin": "Russia",
                 "adoption_status": AdoptionStatus.MILITARY,
                 "year_introduced": 1891,
+                "action_type": "TODO",
                 "image_url": "/uploads/images/mosin_nagant.jpg",
             },
             {
@@ -107,6 +115,7 @@ class FirearmService:
                 "country_of_origin": "Germany",
                 "adoption_status": AdoptionStatus.MILITARY,
                 "year_introduced": 1943,
+                "action_type": "TODO",
                 "image_url": "/uploads/images/stg44.jpg",
             },
             {
@@ -118,6 +127,7 @@ class FirearmService:
                 "country_of_origin": "United States",
                 "adoption_status": AdoptionStatus.MILITARY,
                 "year_introduced": 1964,
+                "action_type": "TODO",
                 "image_url": "/uploads/images/m16.jpg",
             },
             {
@@ -129,6 +139,7 @@ class FirearmService:
                 "country_of_origin": "Israel",
                 "adoption_status": AdoptionStatus.MILITARY,
                 "year_introduced": 1954,
+                "action_type": "TODO",
                 "image_url": "/uploads/images/uzi.jpg",
             },
             {
@@ -140,6 +151,7 @@ class FirearmService:
                 "country_of_origin": "Soviet Union",
                 "adoption_status": AdoptionStatus.MILITARY,
                 "year_introduced": 1941,
+                "action_type": "TODO",
                 "image_url": "/uploads/images/ppsh41.jpg",
             },
         ]
