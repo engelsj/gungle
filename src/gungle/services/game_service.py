@@ -89,9 +89,9 @@ class GameService:
 
         return GameStatusResponse(
             session_id=session_id,
-            target_firearm_name=session.target_firearm.name
-            if session.is_completed
-            else None,
+            target_firearm_name=(
+                session.target_firearm.name if session.is_completed else None
+            ),
             guesses_made=len(session.guesses_made),
             max_guesses=session.max_guesses,
             is_completed=session.is_completed,
