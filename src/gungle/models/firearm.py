@@ -39,6 +39,7 @@ class Firearm(BaseModel):
     country_of_origin: str
     adoption_status: AdoptionStatus
     year_introduced: Optional[int] = None
+    description: str
     image_url: Optional[str] = None
 
 
