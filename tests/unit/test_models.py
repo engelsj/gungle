@@ -2,12 +2,11 @@ from datetime import datetime
 
 from src.gungle.models.firearm import (
     AdoptionStatus,
+    AttributeComparison,
     ComparisonResult,
     Firearm,
     FirearmType,
     GameSession,
-    GuessComparison,
-    GuessResult,
     NewGameResponse,
 )
 
@@ -33,8 +32,8 @@ def test_firearm_model() -> None:
     assert firearm.adoption_status == AdoptionStatus.MILITARY
 
 
-def test_guess_comparison() -> None:
-    comparison = GuessComparison(
+def test_attribute_comparison() -> None:
+    comparison = AttributeComparison(
         attribute="manufacturer",
         guess_value="Colt",
         correct_value="Springfield Armory",
@@ -43,23 +42,6 @@ def test_guess_comparison() -> None:
 
     assert comparison.attribute == "manufacturer"
     assert comparison.result == ComparisonResult.INCORRECT
-
-
-def test_guess_result() -> None:
-    comparisons = [
-        GuessComparison(
-            attribute="type",
-            guess_value="rifle",
-            correct_value="rifle",
-            result=ComparisonResult.CORRECT,
-        )
-    ]
-
-    result = GuessResult(is_correct=False, comparisons=comparisons, remaining_guesses=4)
-
-    assert not result.is_correct
-    assert len(result.comparisons) == 1
-    assert result.remaining_guesses == 4
 
 
 def test_game_session() -> None:

@@ -11,7 +11,7 @@ class FirearmType(str, Enum):
     PISTOL = "pistol"
     SHOTGUN = "shotgun"
     LMG = "lmg"
-    SNIPER = "sniper"
+    PRECISION_RIFLE = "sniper"
     CARBINE = "carbine"
 
 
@@ -38,6 +38,7 @@ class Firearm(BaseModel):
     country_of_origin: str
     adoption_status: AdoptionStatus
     year_introduced: Optional[int] = None
+    actionType: str
     description: Optional[str] = None
     image_url: Optional[str] = None
 

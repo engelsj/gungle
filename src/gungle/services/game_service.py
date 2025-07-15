@@ -94,9 +94,11 @@ class GameService:
         guess_result = GuessResult(
             is_correct=is_correct,
             guess_firearm=guess_firearm,
-            target_firearm=session.target_firearm
-            if session.is_completed
-            else session.target_firearm,
+            target_firearm=(
+                session.target_firearm
+                if session.is_completed
+                else session.target_firearm
+            ),
             comparisons=comparisons,
             remaining_guesses=remaining_guesses,
             game_completed=session.is_completed,
@@ -117,9 +119,9 @@ class GameService:
 
         return GameStatusResponse(
             session_id=session_id,
-            target_firearm_name=session.target_firearm.name
-            if session.is_completed
-            else None,
+            target_firearm_name=(
+                session.target_firearm.name if session.is_completed else None
+            ),
             guesses_made=len(session.guesses_made),
             max_guesses=session.max_guesses,
             is_completed=session.is_completed,
