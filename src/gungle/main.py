@@ -52,7 +52,7 @@ app.mount("/uploads", StaticFiles(directory=settings.UPLOAD_DIR), name="uploads"
 app.include_router(api_router, prefix=settings.API_V1_STR)
 
 
-@app.get("/", response_model=RootResponse)  # type: ignore[misc]
+@app.get("/", response_model=RootResponse)
 async def root() -> RootResponse:
     return RootResponse(
         message="Gungle API",
@@ -65,7 +65,7 @@ async def root() -> RootResponse:
     )
 
 
-@app.get("/health", response_model=HealthResponse)  # type: ignore[misc]
+@app.get("/health", response_model=HealthResponse)
 async def health_check() -> HealthResponse:
     return HealthResponse(
         status="healthy", debug=settings.DEBUG, upload_dir=settings.UPLOAD_DIR
