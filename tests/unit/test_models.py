@@ -22,6 +22,7 @@ def test_firearm_model() -> None:
         country_of_origin="United States",
         adoption_status=AdoptionStatus.MILITARY,
         year_introduced=1936,
+        actionType="TEST ACTION",
         description="A test rifle",
         image_url="/test/image.jpg",
     )
@@ -69,8 +70,11 @@ def test_game_session() -> None:
         type=FirearmType.RIFLE,
         caliber=".30-06",
         country_of_origin="United States",
-        actionType="TODO",
         adoption_status=AdoptionStatus.MILITARY,
+        year_introduced=1936,
+        description="A test rifle",
+        actionType="TEST ACTION",
+        image_url="/test/image.jpg",
     )
 
     session = GameSession(
