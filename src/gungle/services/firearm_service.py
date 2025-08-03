@@ -1,6 +1,6 @@
 from typing import Dict, List, Optional
 
-from ..models.firearm import ActionType, Firearm, FirearmType, ModelType
+from ..models.firearm import ActionType, Caliber, Firearm, FirearmType, ModelType
 
 
 class FirearmService:
@@ -15,7 +15,7 @@ class FirearmService:
                 name="AK-47",
                 manufacturer="Kalashnikov Concern",
                 type=FirearmType.RIFLE,
-                caliber="7.62×39mm",
+                caliber=Caliber.SEVEN_SIX_TWO_X39,
                 country_of_origin="Soviet Union",
                 model_type=ModelType.MILITARY,
                 year_introduced=1947,
@@ -28,7 +28,7 @@ class FirearmService:
                 name="MP 40",
                 manufacturer="Erma Werke",
                 type=FirearmType.SMG,
-                caliber="9×19mm Parabellum",
+                caliber=Caliber.NINE_MM,
                 country_of_origin="Germany",
                 model_type=ModelType.MILITARY,
                 year_introduced=1940,
@@ -41,7 +41,7 @@ class FirearmService:
                 name="Colt M1911",
                 manufacturer="Colt's Manufacturing Company",
                 type=FirearmType.PISTOL,
-                caliber=".45 ACP",
+                caliber=Caliber.FORTY_FIVE_ACP,
                 country_of_origin="United States",
                 model_type=ModelType.MILITARY,
                 year_introduced=1911,
@@ -54,7 +54,7 @@ class FirearmService:
                 name="Thompson M1928",
                 manufacturer="Auto-Ordnance Corporation",
                 type=FirearmType.SMG,
-                caliber=".45 ACP",
+                caliber=Caliber.FORTY_FIVE_ACP,
                 country_of_origin="United States",
                 model_type=ModelType.MILITARY,
                 year_introduced=1928,
@@ -67,39 +67,13 @@ class FirearmService:
                 name="Lee-Enfield",
                 manufacturer="Royal Small Arms Factory",
                 type=FirearmType.RIFLE,
-                caliber=".303 British",
+                caliber=Caliber.THREE_OH_THREE_BRITISH,
                 country_of_origin="United Kingdom",
                 model_type=ModelType.MILITARY,
                 year_introduced=1895,
                 actionType=ActionType.ROTATING_BOLT_ACTION,
                 description="Bolt-action rifle used by British forces",
                 image_url="/uploads/images/lee_enfield.jpg",
-            ),
-            Firearm(
-                id="kar98k",
-                name="Karabiner 98k",
-                manufacturer="Mauser",
-                type=FirearmType.RIFLE,
-                caliber="7.92×57mm Mauser",
-                country_of_origin="Germany",
-                model_type=ModelType.MILITARY,
-                year_introduced=1935,
-                actionType=ActionType.ROTATING_BOLT_ACTION,
-                description="German bolt-action rifle",
-                image_url="/uploads/images/kar98k.jpg",
-            ),
-            Firearm(
-                id="mosin_nagant",
-                name="Mosin-Nagant",
-                manufacturer="Tula Arms Plant",
-                type=FirearmType.RIFLE,
-                caliber="7.62×54mmR",
-                country_of_origin="Russia",
-                model_type=ModelType.MILITARY,
-                year_introduced=1891,
-                actionType=ActionType.ROTATING_BOLT_ACTION,
-                description="Bolt-action rifle used by Russian forces",
-                image_url="/uploads/images/mosin_nagant.jpg",
             ),
         ]
 
