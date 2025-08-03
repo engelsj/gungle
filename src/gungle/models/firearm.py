@@ -50,6 +50,7 @@ class ActionType(str, Enum):
     FLINTLOCK = "Flintlock"
     WHEELLOCK = "Wheellock"
     CAPLOCK = "Caplock"
+    TEST_ACTION = "Test Action"
 
 
 class ComparisonResult(str, Enum):

@@ -1,6 +1,7 @@
 from datetime import datetime
 
 from src.gungle.models.firearm import (
+    ActionType,
     AttributeComparison,
     ComparisonResult,
     Firearm,
@@ -21,7 +22,7 @@ def test_firearm_model() -> None:
         country_of_origin="United States",
         model_type=ModelType.MILITARY,
         year_introduced=1936,
-        actionType="TEST ACTION",
+        actionType=ActionType.TEST_ACTION,
         description="A test rifle",
         image_url="/test/image.jpg",
     )
@@ -55,7 +56,7 @@ def test_game_session() -> None:
         model_type=ModelType.MILITARY,
         year_introduced=1936,
         description="A test rifle",
-        actionType="TEST ACTION",
+        actionType=ActionType.TEST_ACTION,
         image_url="/test/image.jpg",
     )
 

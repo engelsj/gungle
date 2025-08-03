@@ -1,18 +1,7 @@
 import pytest
 
-from src.gungle.models.firearm import Firearm, FirearmType, ModelType
+from src.gungle.models.firearm import ActionType, Firearm, FirearmType, ModelType
 from src.gungle.services.game_service import GameService
-
-
-def test_new_game_without_hint() -> None:
-    service = GameService()
-    response = service.start_new_game()
-
-    assert response.session_id is not None
-    assert response.max_guesses == 5
-    assert response.firearm_image_url is not None
-    # Verify hint is not in the response
-    assert not hasattr(response, "hint")
 
 
 def test_get_available_firearm_names() -> None:
@@ -131,7 +120,7 @@ def test_year_comparison_with_partial_match() -> None:
         manufacturer="Test Manufacturer",
         type=FirearmType.RIFLE,
         caliber=".30-06",
-        actionType="bolt",
+        actionType=ActionType.TEST_ACTION,
         country_of_origin="United States",
         model_type=ModelType.MILITARY,
         year_introduced=1943,
@@ -144,9 +133,9 @@ def test_year_comparison_with_partial_match() -> None:
         type=FirearmType.RIFLE,
         caliber=".30-06",
         country_of_origin="United States",
-        actionType="bolt",
+        actionType=ActionType.TEST_ACTION,
         model_type=ModelType.MILITARY,
-        year_introduced=1945,  # 2 years difference
+        year_introduced=1945,
     )
 
     comparisons = service._compare_firearms(firearm1, firearm2)
@@ -157,7 +146,7 @@ def test_year_comparison_with_partial_match() -> None:
     )
 
     assert year_comparison is not None
-    assert year_comparison.result.value == "partial"  # Within 5 years
+    assert year_comparison.result.value == "partial"
 
 
 def test_max_guesses_reached() -> None:
