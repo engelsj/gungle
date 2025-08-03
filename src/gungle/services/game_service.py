@@ -19,9 +19,7 @@ from .firearm_service import firearm_service
 class GameService:
     def __init__(self) -> None:
         self._sessions: Dict[str, GameSession] = {}
-        self._guess_history: Dict[
-            str, List[GuessResult]
-        ] = {}  # Track all guess results
+        self._guess_history: Dict[str, List[GuessResult]] = {}
 
     def start_new_game(self) -> NewGameResponse:
         # Select random firearm as target
@@ -163,7 +161,6 @@ class GameService:
     ) -> List[AttributeComparison]:
         comparisons = []
 
-        # Compare manufacturer
         manufacturer_result = (
             ComparisonResult.CORRECT
             if guess_firearm.manufacturer == target_firearm.manufacturer
@@ -178,7 +175,6 @@ class GameService:
             )
         )
 
-        # Compare type
         type_result = (
             ComparisonResult.CORRECT
             if guess_firearm.type == target_firearm.type
@@ -193,7 +189,6 @@ class GameService:
             )
         )
 
-        # Compare caliber
         caliber_result = (
             ComparisonResult.CORRECT
             if guess_firearm.caliber == target_firearm.caliber
@@ -208,7 +203,6 @@ class GameService:
             )
         )
 
-        # Compare country of origin
         country_result = (
             ComparisonResult.CORRECT
             if guess_firearm.country_of_origin == target_firearm.country_of_origin
@@ -223,7 +217,6 @@ class GameService:
             )
         )
 
-        # Compare adoption status
         adoption_result = (
             ComparisonResult.CORRECT
             if guess_firearm.model_type == target_firearm.model_type
@@ -238,15 +231,12 @@ class GameService:
             )
         )
 
-        # Compare year introduced (with some tolerance for partial matches)
         if guess_firearm.year_introduced and target_firearm.year_introduced:
             year_diff = abs(
                 guess_firearm.year_introduced - target_firearm.year_introduced
             )
             if year_diff == 0:
                 year_result = ComparisonResult.CORRECT
-            elif year_diff <= 5:  # Within 5 years is partial
-                year_result = ComparisonResult.PARTIAL
             else:
                 year_result = ComparisonResult.INCORRECT
         else:
@@ -264,5 +254,4 @@ class GameService:
         return comparisons
 
 
-# Global game service instance
 game_service = GameService()

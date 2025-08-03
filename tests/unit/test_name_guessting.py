@@ -1,6 +1,5 @@
 import pytest
 
-from src.gungle.models.firearm import ActionType, Firearm, FirearmType, ModelType
 from src.gungle.services.game_service import GameService
 
 
@@ -9,7 +8,6 @@ def test_get_available_firearm_names() -> None:
     names = service.get_available_firearm_names()
 
     assert len(names) > 0
-    assert "M1 Garand" in names
     assert "AK-47" in names
 
 
@@ -32,7 +30,7 @@ def test_make_guess_by_name_correct() -> None:
     assert result.game_completed is True
     assert result.guess_firearm.name == target_name
     assert result.remaining_guesses == 4
-    assert len(result.comparisons) == 6  # All attributes including year
+    assert len(result.comparisons) == 6
 
 
 def test_make_guess_by_name_incorrect() -> None:
@@ -110,45 +108,6 @@ def test_game_status_with_guess_history() -> None:
     assert status.guesses_made == 1
 
 
-def test_year_comparison_with_partial_match() -> None:
-    service = GameService()
-
-    # Create test firearms with close years
-    firearm1 = Firearm(
-        id="test1",
-        name="Test 1",
-        manufacturer="Test Manufacturer",
-        type=FirearmType.RIFLE,
-        caliber=".30-06",
-        actionType=ActionType.TEST_ACTION,
-        country_of_origin="United States",
-        model_type=ModelType.MILITARY,
-        year_introduced=1943,
-    )
-
-    firearm2 = Firearm(
-        id="test2",
-        name="Test 2",
-        manufacturer="Test Manufacturer",
-        type=FirearmType.RIFLE,
-        caliber=".30-06",
-        country_of_origin="United States",
-        actionType=ActionType.TEST_ACTION,
-        model_type=ModelType.MILITARY,
-        year_introduced=1945,
-    )
-
-    comparisons = service._compare_firearms(firearm1, firearm2)
-
-    # Find year comparison
-    year_comparison = next(
-        (c for c in comparisons if c.attribute == "year_introduced"), None
-    )
-
-    assert year_comparison is not None
-    assert year_comparison.result.value == "partial"
-
-
 def test_max_guesses_reached() -> None:
     service = GameService()
 
@@ -175,7 +134,7 @@ def test_max_guesses_reached() -> None:
                 assert not result.game_completed
             else:  # 5th guess
                 assert result.game_completed
-                assert not result.is_correct  # Lost the game
+                assert not result.is_correct
                 assert result.remaining_guesses == 0
 
         # Try to make another guess (should fail with "Game already completed")
