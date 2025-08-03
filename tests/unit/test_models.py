@@ -1,12 +1,12 @@
 from datetime import datetime
 
 from src.gungle.models.firearm import (
-    AdoptionStatus,
     AttributeComparison,
     ComparisonResult,
     Firearm,
     FirearmType,
     GameSession,
+    ModelType,
     NewGameResponse,
 )
 
@@ -19,7 +19,7 @@ def test_firearm_model() -> None:
         type=FirearmType.RIFLE,
         caliber=".30-06",
         country_of_origin="United States",
-        adoption_status=AdoptionStatus.MILITARY,
+        model_type=ModelType.MILITARY,
         year_introduced=1936,
         actionType="TEST ACTION",
         description="A test rifle",
@@ -29,7 +29,7 @@ def test_firearm_model() -> None:
     assert firearm.id == "test_rifle"
     assert firearm.name == "Test Rifle"
     assert firearm.type == FirearmType.RIFLE
-    assert firearm.adoption_status == AdoptionStatus.MILITARY
+    assert firearm.model_type == ModelType.MILITARY
 
 
 def test_attribute_comparison() -> None:
@@ -52,7 +52,7 @@ def test_game_session() -> None:
         type=FirearmType.RIFLE,
         caliber=".30-06",
         country_of_origin="United States",
-        adoption_status=AdoptionStatus.MILITARY,
+        model_type=ModelType.MILITARY,
         year_introduced=1936,
         description="A test rifle",
         actionType="TEST ACTION",

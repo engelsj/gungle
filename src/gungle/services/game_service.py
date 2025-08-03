@@ -226,14 +226,14 @@ class GameService:
         # Compare adoption status
         adoption_result = (
             ComparisonResult.CORRECT
-            if guess_firearm.adoption_status == target_firearm.adoption_status
+            if guess_firearm.model_type == target_firearm.model_type
             else ComparisonResult.INCORRECT
         )
         comparisons.append(
             AttributeComparison(
                 attribute="adoption_status",
-                guess_value=guess_firearm.adoption_status.value,
-                correct_value=target_firearm.adoption_status.value,
+                guess_value=guess_firearm.model_type.value,
+                correct_value=target_firearm.model_type.value,
                 result=adoption_result,
             )
         )

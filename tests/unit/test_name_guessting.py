@@ -1,6 +1,6 @@
 import pytest
 
-from src.gungle.models.firearm import AdoptionStatus, Firearm, FirearmType
+from src.gungle.models.firearm import Firearm, FirearmType, ModelType
 from src.gungle.services.game_service import GameService
 
 
@@ -133,7 +133,7 @@ def test_year_comparison_with_partial_match() -> None:
         caliber=".30-06",
         actionType="bolt",
         country_of_origin="United States",
-        adoption_status=AdoptionStatus.MILITARY,
+        model_type=ModelType.MILITARY,
         year_introduced=1943,
     )
 
@@ -145,7 +145,7 @@ def test_year_comparison_with_partial_match() -> None:
         caliber=".30-06",
         country_of_origin="United States",
         actionType="bolt",
-        adoption_status=AdoptionStatus.MILITARY,
+        model_type=ModelType.MILITARY,
         year_introduced=1945,  # 2 years difference
     )
 

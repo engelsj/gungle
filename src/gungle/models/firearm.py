@@ -6,21 +6,50 @@ from pydantic import BaseModel
 
 
 class FirearmType(str, Enum):
-    RIFLE = "rifle"
-    SMG = "smg"
-    PISTOL = "pistol"
-    SHOTGUN = "shotgun"
-    LMG = "lmg"
-    PRECISION_RIFLE = "sniper"
-    CARBINE = "carbine"
+    RIFLE = "Rifle"
+    SMG = "Sub Machine Gun"
+    PISTOL = "Handgun"
+    SHOTGUN = "Shotgun"
+    LMG = "Light Machine Gun"
+    PRECISION_RIFLE = "Precision Rifle"
+    CARBINE = "Carbine"
 
 
-class AdoptionStatus(str, Enum):
-    PROTOTYPE = "prototype"
-    CIVILIAN = "civilian"
-    MILITARY = "military"
-    POLICE = "police"
-    BOTH = "both"  # civilian and military
+class ModelType(str, Enum):
+    PROTOTYPE = "Prototype"
+    CIVILIAN = "Civilian"
+    MILITARY = "Military"
+    POLICE = "Police"
+
+
+class ActionType(str, Enum):
+    BREECH_BLOCK = "Breech Block"
+    DROPPING_BLOCK = "Dropping Block"
+    PIVOTING_BLOCK = "Pivoting Block"
+    FALLING_BLOCK = "Falling Block"
+    ROLLING_BLOCK = "Rolling Block"
+    HINGED_BLOCK = "Hinged Block"
+    BREAK_ACTION = "Break-action"
+    ROTATING_BOLT_ACTION = "Rotating Bolt-action"
+    STRAIGHT_PULL_BOLT_ACTION = "Straight-pull Bolt-action"
+    ECCENTRIC_SCREW_ACTION = "Eccentric Screw Action"
+    SINGLE_ACTION_REVOLVER = "Single Action Revolver"
+    DOUBLE_ACTION_REVOLVER = "Double Action Revovler"
+    PUMP_ACTION = "Pump-action"
+    LEVER_ACTION = "Lever-action"
+    SIMPLE_BLOWBACK = "Simple Blowback"
+    BLOW_FORWARD = "Blow-forward"
+    SHOT_RECOIL = "Short-recoil"
+    LONG_RECOIL = "Long-recoil"
+    INERTIA = "Inertia"
+    SHORT_STROKE_GAS_PISTON = "Short-stroke Gas Piston"
+    LONG_STROKE_GAS_PISTON = "Long-stroke Gas Piston"
+    DIRECT_IMPINGEMENT = "Direct Impingement"
+    GAS_TRAP = "Gas Trap"
+    MATCHLOCK = "Matchlock"
+    FLINTLOCK = "Flintlock"
+    WHEELLOCK = "Wheellock"
+    CAPLOCK = "Caplock"
 
 
 class ComparisonResult(str, Enum):
@@ -36,9 +65,9 @@ class Firearm(BaseModel):
     type: FirearmType
     caliber: str
     country_of_origin: str
-    adoption_status: AdoptionStatus
+    model_type: ModelType
     year_introduced: Optional[int] = None
-    actionType: str
+    actionType: ActionType
     description: Optional[str] = None
     image_url: Optional[str] = None
 
