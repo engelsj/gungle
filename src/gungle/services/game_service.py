@@ -203,6 +203,20 @@ class GameService:
             )
         )
 
+        action_result = (
+            ComparisonResult.CORRECT
+            if guess_firearm.action_type == target_firearm.action_type
+            else ComparisonResult.INCORRECT
+        )
+        comparisons.append(
+            AttributeComparison(
+                attribute="action_type",
+                guess_value=guess_firearm.action_type,
+                correct_value=target_firearm.action_type,
+                result=action_result,
+            )
+        )
+
         country_result = (
             ComparisonResult.CORRECT
             if guess_firearm.country_of_origin == target_firearm.country_of_origin

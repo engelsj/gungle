@@ -7,6 +7,9 @@ from pydantic import BaseModel
 
 from .api.v1.api import api_router
 from .config import settings
+from .database import create_tables
+
+create_tables()
 
 app = FastAPI(
     title=settings.PROJECT_NAME,
@@ -16,6 +19,11 @@ app = FastAPI(
     docs_url="/docs",
     redoc_url="/redoc",
 )
+
+os.makedirs(settings.UPLOAD_DIR, exist_ok=True)
+os.makedirs(f"{settings.UPLOAD_DIR}/images", exist_ok=True)
+
+app.mount("/uploads", StaticFiles(directory=settings.UPLOAD_DIR), name="uploads")
 
 app.add_middleware(
     CORSMiddleware,

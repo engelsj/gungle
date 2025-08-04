@@ -1,111 +1,277 @@
-from typing import Dict, List, Optional
+from typing import List, Optional
 
+from sqlalchemy.exc import SQLAlchemyError
+from sqlalchemy.orm import Session
+
+from ..database import FirearmDB, get_db
 from ..models.firearm import ActionType, Caliber, Firearm, FirearmType, ModelType
 
 
 class FirearmService:
-    def __init__(self) -> None:
-        self._firearms: Dict[str, Firearm] = {}
-        self._load_sample_data()
+    def __init__(self, db_session: Optional[Session] = None):
+        self.db_session = db_session
+        try:
+            self._ensure_sample_data()
+        except SQLAlchemyError as e:
+            print(f"Warning: Could not initialize sample data: {e}")
 
-    def _load_sample_data(self) -> None:
-        sample_firearms = [
-            Firearm(
-                id="ak47",
-                name="AK-47",
-                manufacturer="Kalashnikov Concern",
-                type=FirearmType.RIFLE,
-                caliber=Caliber.SEVEN_SIX_TWO_X39,
-                country_of_origin="Soviet Union",
-                model_type=ModelType.MILITARY,
-                year_introduced=1947,
-                actionType=ActionType.LONG_STROKE_GAS_PISTON,
-                description="Selective-fire assault rifle",
-                image_url="/uploads/images/ak47.jpg",
-            ),
-            Firearm(
-                id="mp40",
-                name="MP 40",
-                manufacturer="Erma Werke",
-                type=FirearmType.SMG,
-                caliber=Caliber.NINE_MM,
-                country_of_origin="Germany",
-                model_type=ModelType.MILITARY,
-                year_introduced=1940,
-                actionType=ActionType.SIMPLE_BLOWBACK,
-                description="German submachine gun used in WWII",
-                image_url="/uploads/images/mp40.jpg",
-            ),
-            Firearm(
-                id="colt_1911",
-                name="Colt M1911",
-                manufacturer="Colt's Manufacturing Company",
-                type=FirearmType.PISTOL,
-                caliber=Caliber.FORTY_FIVE_ACP,
-                country_of_origin="United States",
-                model_type=ModelType.MILITARY,
-                year_introduced=1911,
-                actionType=ActionType.SHOT_RECOIL,
-                description="Semi-automatic pistol",
-                image_url="/uploads/images/colt_1911.jpg",
-            ),
-            Firearm(
-                id="thompson_m1928",
-                name="Thompson M1928",
-                manufacturer="Auto-Ordnance Corporation",
-                type=FirearmType.SMG,
-                caliber=Caliber.FORTY_FIVE_ACP,
-                country_of_origin="United States",
-                model_type=ModelType.MILITARY,
-                year_introduced=1928,
-                actionType=ActionType.SIMPLE_BLOWBACK,
-                description="Submachine gun known as Tommy Gun",
-                image_url="/uploads/images/thompson.jpg",
-            ),
-            Firearm(
-                id="lee_enfield",
-                name="Lee-Enfield",
-                manufacturer="Royal Small Arms Factory",
-                type=FirearmType.RIFLE,
-                caliber=Caliber.THREE_OH_THREE_BRITISH,
-                country_of_origin="United Kingdom",
-                model_type=ModelType.MILITARY,
-                year_introduced=1895,
-                actionType=ActionType.ROTATING_BOLT_ACTION,
-                description="Bolt-action rifle used by British forces",
-                image_url="/uploads/images/lee_enfield.jpg",
-            ),
-        ]
+    def _get_db(self) -> Session:
+        if self.db_session:
+            return self.db_session
+        return next(get_db())
 
-        for firearm in sample_firearms:
-            self._firearms[firearm.id] = firearm
+    def _ensure_sample_data(self) -> None:
+        try:
+            db = self._get_db()
+
+            if db.query(FirearmDB).count() > 0:
+                if not self.db_session:
+                    db.close()
+                return
+
+            print("Loading sample firearm data...")
+
+            sample_firearms = [
+                FirearmDB(
+                    id="ak47",
+                    name="AK-47",
+                    manufacturer="Kalashnikov Concern",
+                    type=FirearmType.RIFLE.value,
+                    caliber=Caliber.SEVEN_SIX_TWO_X39.value,
+                    country_of_origin="Soviet Union",
+                    model_type=ModelType.MILITARY.value,
+                    year_introduced=1947,
+                    action_type=ActionType.LONG_STROKE_GAS_PISTON.value,
+                    description="Selective-fire assault rifle",
+                    image_url="/uploads/images/ak47.jpg",
+                ),
+                FirearmDB(
+                    id="mp40",
+                    name="MP 40",
+                    manufacturer="Erma Werke",
+                    type=FirearmType.SMG.value,
+                    caliber=Caliber.NINE_MM.value,
+                    country_of_origin="Germany",
+                    model_type=ModelType.MILITARY.value,
+                    year_introduced=1940,
+                    action_type=ActionType.SIMPLE_BLOWBACK.value,
+                    description="German submachine gun used in WWII",
+                    image_url="/uploads/images/mp40.jpg",
+                ),
+                FirearmDB(
+                    id="colt_1911",
+                    name="Colt M1911",
+                    manufacturer="Colt's Manufacturing Company",
+                    type=FirearmType.PISTOL.value,
+                    caliber=Caliber.FORTY_FIVE_ACP.value,
+                    country_of_origin="United States",
+                    model_type=ModelType.MILITARY.value,
+                    year_introduced=1911,
+                    action_type=ActionType.SHOT_RECOIL.value,
+                    description="Semi-automatic pistol",
+                    image_url="/uploads/images/colt_1911.jpg",
+                ),
+                FirearmDB(
+                    id="thompson_m1928",
+                    name="Thompson M1928",
+                    manufacturer="Auto-Ordnance Corporation",
+                    type=FirearmType.SMG.value,
+                    caliber=Caliber.FORTY_FIVE_ACP.value,
+                    country_of_origin="United States",
+                    model_type=ModelType.MILITARY.value,
+                    year_introduced=1928,
+                    action_type=ActionType.SIMPLE_BLOWBACK.value,
+                    description="Submachine gun known as Tommy Gun",
+                    image_url="/uploads/images/thompson.jpg",
+                ),
+                FirearmDB(
+                    id="lee_enfield",
+                    name="Lee-Enfield",
+                    manufacturer="Royal Small Arms Factory",
+                    type=FirearmType.RIFLE.value,
+                    caliber=Caliber.THREE_OH_THREE_BRITISH.value,
+                    country_of_origin="United Kingdom",
+                    model_type=ModelType.MILITARY.value,
+                    year_introduced=1895,
+                    action_type=ActionType.ROTATING_BOLT_ACTION.value,
+                    description="Bolt-action rifle used by British forces",
+                    image_url="/uploads/images/lee_enfield.jpg",
+                ),
+                FirearmDB(
+                    id="m1_garand",
+                    name="M1 Garand",
+                    manufacturer="Springfield Armory",
+                    type=FirearmType.RIFLE.value,
+                    caliber=Caliber.THIRTY_OH_SIX.value,
+                    country_of_origin="United States",
+                    model_type=ModelType.MILITARY.value,
+                    year_introduced=1936,
+                    action_type=ActionType.ROTATING_BOLT_ACTION.value,
+                    description="Semi-automatic rifle used by US forces in WWII",
+                    image_url="/uploads/images/m1_garand.jpg",
+                ),
+            ]
+
+            for firearm_db in sample_firearms:
+                db.add(firearm_db)
+
+            db.commit()
+            print(f"Loaded {len(sample_firearms)} sample firearms")
+
+            if not self.db_session:
+                db.close()
+
+        except Exception as e:
+            print(f"Error loading sample data: {e}")
+            if not self.db_session and "db" in locals():
+                db.close()
+
+    def _db_to_pydantic(self, firearm_db: FirearmDB) -> Firearm:
+        return Firearm(
+            id=firearm_db.id,
+            name=firearm_db.name,
+            manufacturer=firearm_db.manufacturer,
+            type=FirearmType(firearm_db.type),
+            caliber=Caliber(firearm_db.caliber),
+            country_of_origin=firearm_db.country_of_origin,
+            model_type=ModelType(firearm_db.model_type),
+            action_type=ActionType(firearm_db.action_type),
+            year_introduced=firearm_db.year_introduced,
+            description=firearm_db.description,
+            image_url=firearm_db.image_url,
+        )
+
+    def _pydantic_to_db(self, firearm: Firearm) -> FirearmDB:
+        return FirearmDB(
+            id=firearm.id,
+            name=firearm.name,
+            manufacturer=firearm.manufacturer,
+            type=firearm.type.value,
+            caliber=firearm.caliber.value,
+            country_of_origin=firearm.country_of_origin,
+            model_type=firearm.model_type.value,
+            year_introduced=firearm.year_introduced,
+            action_type=firearm.action_type.value,
+            description=firearm.description,
+            image_url=firearm.image_url,
+        )
 
     def get_all_firearms(self) -> List[Firearm]:
-        return list(self._firearms.values())
+        try:
+            db = self._get_db()
+            firearms_db = db.query(FirearmDB).all()
+            result = [self._db_to_pydantic(f) for f in firearms_db]
+
+            if not self.db_session:
+                db.close()
+            return result
+        except Exception as e:
+            print(f"Error getting firearms: {e}")
+            return []
 
     def get_firearm_by_id(self, firearm_id: str) -> Optional[Firearm]:
-        return self._firearms.get(firearm_id)
+        try:
+            db = self._get_db()
+            firearm_db = db.query(FirearmDB).filter(FirearmDB.id == firearm_id).first()
+
+            result = None
+            if firearm_db:
+                result = self._db_to_pydantic(firearm_db)
+
+            if not self.db_session:
+                db.close()
+            return result
+        except Exception as e:
+            print(f"Error getting firearm {firearm_id}: {e}")
+            return None
 
     def add_firearm(self, firearm: Firearm) -> bool:
-        if firearm.id in self._firearms:
+        try:
+            db = self._get_db()
+
+            existing = db.query(FirearmDB).filter(FirearmDB.id == firearm.id).first()
+            if existing:
+                if not self.db_session:
+                    db.close()
+                return False
+
+            firearm_db = self._pydantic_to_db(firearm)
+            db.add(firearm_db)
+            db.commit()
+
+            if not self.db_session:
+                db.close()
+            return True
+
+        except Exception as e:
+            print(f"Error adding firearm: {e}")
             return False
-        self._firearms[firearm.id] = firearm
-        return True
 
     def update_firearm(self, firearm_id: str, firearm: Firearm) -> bool:
-        if firearm_id not in self._firearms:
+        try:
+            db = self._get_db()
+
+            firearm_db = db.query(FirearmDB).filter(FirearmDB.id == firearm_id).first()
+            if not firearm_db:
+                if not self.db_session:
+                    db.close()
+                return False
+
+            firearm_db.name = firearm.name
+            firearm_db.manufacturer = firearm.manufacturer
+            firearm_db.type = firearm.type.value
+            firearm_db.caliber = firearm.caliber.value
+            firearm_db.country_of_origin = firearm.country_of_origin
+            firearm_db.model_type = firearm.model_type.value
+            firearm_db.year_introduced = firearm.year_introduced
+            firearm_db.description = firearm.description
+            firearm_db.action_type = firearm.action_type.value
+            firearm_db.image_url = firearm.image_url
+
+            db.commit()
+            if not self.db_session:
+                db.close()
+            return True
+
+        except Exception as e:
+            print(f"Error updating firearm: {e}")
             return False
-        self._firearms[firearm_id] = firearm
-        return True
 
     def delete_firearm(self, firearm_id: str) -> bool:
-        if firearm_id not in self._firearms:
+        try:
+            db = self._get_db()
+
+            firearm_db = db.query(FirearmDB).filter(FirearmDB.id == firearm_id).first()
+            if not firearm_db:
+                if not self.db_session:
+                    db.close()
+                return False
+
+            db.delete(firearm_db)
+            db.commit()
+
+            if not self.db_session:
+                db.close()
+            return True
+
+        except Exception as e:
+            print(f"Error deleting firearm: {e}")
             return False
-        del self._firearms[firearm_id]
-        return True
 
     def firearm_exists(self, firearm_id: str) -> bool:
-        return firearm_id in self._firearms
+        try:
+            db = self._get_db()
+            exists = (
+                db.query(FirearmDB).filter(FirearmDB.id == firearm_id).first()
+                is not None
+            )
+
+            if not self.db_session:
+                db.close()
+            return exists
+        except Exception as e:
+            print(f"Error checking firearm existence: {e}")
+            return False
 
 
 firearm_service = FirearmService()

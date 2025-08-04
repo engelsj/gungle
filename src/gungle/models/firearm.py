@@ -107,7 +107,7 @@ class Firearm(BaseModel):
     country_of_origin: str
     model_type: ModelType
     year_introduced: Optional[int] = None
-    actionType: ActionType
+    action_type: ActionType
     description: Optional[str] = None
     image_url: Optional[str] = None
 
