@@ -128,17 +128,17 @@ class FirearmService:
 
     def _db_to_pydantic(self, firearm_db: FirearmDB) -> Firearm:
         return Firearm(
-            id=firearm_db.id,
-            name=firearm_db.name,
-            manufacturer=firearm_db.manufacturer,
-            type=FirearmType(firearm_db.type),
-            caliber=Caliber(firearm_db.caliber),
-            country_of_origin=firearm_db.country_of_origin,
-            model_type=ModelType(firearm_db.model_type),
-            action_type=ActionType(firearm_db.action_type),
-            year_introduced=firearm_db.year_introduced,
-            description=firearm_db.description,
-            image_url=firearm_db.image_url,
+            id=str(firearm_db.id),
+            name=str(firearm_db.name),
+            manufacturer=str(firearm_db.manufacturer),
+            type=FirearmType(str(firearm_db.type)),
+            caliber=Caliber(str(firearm_db.caliber)),
+            country_of_origin=str(firearm_db.country_of_origin),
+            model_type=ModelType(str(firearm_db.model_type)),
+            action_type=ActionType(str(firearm_db.action_type)),
+            year_introduced=int(firearm_db.year_introduced),
+            description=str(firearm_db.description),
+            image_url=str(firearm_db.image_url),
         )
 
     def _pydantic_to_db(self, firearm: Firearm) -> FirearmDB:
@@ -217,16 +217,16 @@ class FirearmService:
                     db.close()
                 return False
 
-            firearm_db.name = firearm.name
-            firearm_db.manufacturer = firearm.manufacturer
-            firearm_db.type = firearm.type.value
-            firearm_db.caliber = firearm.caliber.value
-            firearm_db.country_of_origin = firearm.country_of_origin
-            firearm_db.model_type = firearm.model_type.value
-            firearm_db.year_introduced = firearm.year_introduced
-            firearm_db.description = firearm.description
-            firearm_db.action_type = firearm.action_type.value
-            firearm_db.image_url = firearm.image_url
+            setattr(firearm_db, "name", firearm.name)
+            setattr(firearm_db, "manufacturer", firearm.manufacturer)
+            setattr(firearm_db, "type", firearm.type.value)
+            setattr(firearm_db, "caliber", firearm.caliber.value)
+            setattr(firearm_db, "country_of_origin", firearm.country_of_origin)
+            setattr(firearm_db, "model_type", firearm.model_type.value)
+            setattr(firearm_db, "year_introduced", firearm.year_introduced)
+            setattr(firearm_db, "description", firearm.description)
+            setattr(firearm_db, "action_type", firearm.action_type.value)
+            setattr(firearm_db, "image_url", firearm.image_url)
 
             db.commit()
             if not self.db_session:

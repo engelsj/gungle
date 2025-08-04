@@ -13,10 +13,10 @@ class FirearmDB(Base):
     caliber = Column(String, nullable=False)
     country_of_origin = Column(String, nullable=False)
     model_type = Column(String, nullable=False)
-    year_introduced = Column(Integer, nullable=True)
-    description = Column(Text, nullable=True)
+    year_introduced = Column(Integer, nullable=False)
+    description = Column(Text, nullable=False)
     action_type = Column(String, nullable=False)
-    image_url = Column(String, nullable=True)
+    image_url = Column(String, nullable=False)
     created_at = Column(DateTime, default=func.now())
     updated_at = Column(DateTime, default=func.now(), onupdate=func.now())
 
