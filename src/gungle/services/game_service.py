@@ -110,7 +110,7 @@ class GameService:
             max_guesses=session.max_guesses,
             is_completed=session.is_completed,
             is_won=session.is_won,
-            target_firearm=session.target_firearm if session.is_completed else None,
+            target_firearm=(session.target_firearm if session.is_completed else None),
             all_guess_results=self._guess_history.get(session_id, []),
         )
 
@@ -205,7 +205,7 @@ class GameService:
 
         country_result = (
             ComparisonResult.CORRECT
-            if guess_firearm.country_of_origin == target_firearm.country_of_origin
+            if (guess_firearm.country_of_origin == target_firearm.country_of_origin)
             else ComparisonResult.INCORRECT
         )
         comparisons.append(

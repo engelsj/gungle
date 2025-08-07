@@ -107,7 +107,7 @@ class FirearmService:
                     model_type=ModelType.MILITARY.value,
                     year_introduced=1936,
                     action_type=ActionType.ROTATING_BOLT_ACTION.value,
-                    description="Semi-automatic rifle used by US forces in WWII",
+                    description=("Semi-automatic rifle used by US forces in WWII"),
                     image_url="/uploads/images/m1_garand.jpg",
                 ),
             ]
