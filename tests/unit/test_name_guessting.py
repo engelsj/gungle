@@ -30,7 +30,7 @@ def test_make_guess_by_name_correct() -> None:
     assert result.game_completed is True
     assert result.guess_firearm.name == target_name
     assert result.remaining_guesses == 4
-    assert len(result.comparisons) == 6
+    assert len(result.comparisons) == 7
 
 
 def test_make_guess_by_name_incorrect() -> None:
@@ -53,7 +53,7 @@ def test_make_guess_by_name_incorrect() -> None:
         assert result.game_completed is False
         assert result.guess_firearm.name == wrong_name
         assert result.remaining_guesses == 4
-        assert len(result.comparisons) == 6
+        assert len(result.comparisons) == 7
 
 
 def test_invalid_firearm_name() -> None:
