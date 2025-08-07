@@ -1,6 +1,6 @@
-import random
+import hashlib
 import uuid
-from datetime import datetime
+from datetime import date, datetime
 from typing import Dict, List, Optional
 
 from ..models.firearm import (
@@ -20,16 +20,12 @@ class GameService:
     def __init__(self) -> None:
         self._sessions: Dict[str, GameSession] = {}
         self._guess_history: Dict[str, List[GuessResult]] = {}
+        self._current_daily_firearm: Optional[Firearm] = None
+        self._current_date: Optional[date] = None
 
     def start_new_game(self) -> NewGameResponse:
-        # Select random firearm as target
-        available_firearms = firearm_service.get_all_firearms()
-        if not available_firearms:
-            raise ValueError("No firearms available for game")
+        target_firearm = self._get_daily_firearm()
 
-        target_firearm = random.choice(available_firearms)
-
-        # Create new game session
         session_id = str(uuid.uuid4())
         game_session = GameSession(
             session_id=session_id,
@@ -51,34 +47,26 @@ class GameService:
         )
 
     def make_guess_by_name(self, session_id: str, firearm_name: str) -> GuessResult:
-        # Validate session
         session = self._get_session(session_id)
         if not session:
             raise ValueError("Game session not found")
 
-        # Check if game is already completed
         if session.is_completed:
             raise ValueError("Game already completed")
 
-        # Check if max guesses reached
         if len(session.guesses_made) >= session.max_guesses:
             raise ValueError("Maximum guesses reached")
 
-        # Find the guessed firearm by name (case-insensitive)
         guess_firearm = self._find_firearm_by_name(firearm_name)
         if not guess_firearm:
             raise ValueError(f"Firearm '{firearm_name}' not found")
 
-        # Add guess to session
         session.guesses_made.append(guess_firearm.name)
 
-        # Check if guess is correct
         is_correct = guess_firearm.name.lower() == session.target_firearm.name.lower()
 
-        # Generate comparisons between guessed firearm and target
         comparisons = self._compare_firearms(guess_firearm, session.target_firearm)
 
-        # Update session state
         remaining_guesses = session.max_guesses - len(session.guesses_made)
 
         if is_correct:
@@ -88,7 +76,6 @@ class GameService:
             session.is_completed = True
             session.is_won = False
 
-        # Create guess result
         guess_result = GuessResult(
             is_correct=is_correct,
             guess_firearm=guess_firearm,
@@ -102,7 +89,6 @@ class GameService:
             game_completed=session.is_completed,
         )
 
-        # Store in guess history
         self._guess_history[session_id].append(guess_result)
 
         return guess_result
@@ -266,6 +252,31 @@ class GameService:
         )
 
         return comparisons
+
+    def _get_daily_firearm(self) -> Firearm:
+        today = date.today()
+
+        if self._current_date != today or self._current_daily_firearm is None:
+            self._current_date = today
+            self._current_daily_firearm = self._select_daily_firearm(today)
+
+        return self._current_daily_firearm
+
+    def _select_daily_firearm(self, target_date: date) -> Firearm:
+        available_firearms = firearm_service.get_all_firearms()
+        if not available_firearms:
+            raise ValueError("No firearms available for game")
+
+        date_string = target_date.isoformat()
+        seed_hash = hashlib.sha256(date_string.encode()).hexdigest()
+
+        seed_int = int(seed_hash[:8], 16)  # Use first 8 hex chars as integer
+        firearm_index = seed_int % len(available_firearms)
+
+        return available_firearms[firearm_index]
+
+    def get_daily_firearm(self) -> Firearm:
+        return self._get_daily_firearm()
 
 
 game_service = GameService()

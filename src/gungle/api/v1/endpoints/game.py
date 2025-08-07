@@ -1,4 +1,4 @@
-from typing import List
+from typing import Any, Dict, List
 
 from fastapi import APIRouter, HTTPException
 
@@ -63,3 +63,12 @@ async def reveal_answer(session_id: str) -> GameRevealResponse:
 @router.get("/admin/sessions", response_model=List[GameSession])
 async def get_all_sessions() -> List[GameSession]:
     return game_service.get_all_sessions()
+
+
+@router.get("/daily-firearm")
+async def get_daily_firearm() -> Dict[str, Any]:
+    try:
+        daily_firearm = game_service.get_daily_firearm()
+        return {"firearm": daily_firearm, "message": "Today's firearm"}
+    except ValueError as e:
+        raise HTTPException(status_code=500, detail=str(e))
