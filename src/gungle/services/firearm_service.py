@@ -10,6 +10,9 @@ from ..models.firearm import ActionType, Caliber, Firearm, FirearmType, ModelTyp
 class FirearmService:
     def __init__(self, db_session: Optional[Session] = None):
         self.db_session = db_session
+
+    def initialize_sample_data(self) -> None:
+        """Initialize the database with sample firearm data if it's empty."""
         try:
             self._ensure_sample_data()
         except SQLAlchemyError as e:
@@ -275,3 +278,4 @@ class FirearmService:
 
 
 firearm_service = FirearmService()
+firearm_service.initialize_sample_data()

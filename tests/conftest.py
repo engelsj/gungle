@@ -7,6 +7,7 @@ from sqlalchemy.orm import sessionmaker
 
 from src.gungle.database import Base, get_db
 from src.gungle.main import app
+from src.gungle.services.firearm_service import FirearmService
 
 
 @pytest.fixture(scope="session", autouse=True)
@@ -25,6 +26,14 @@ def setup_test_database() -> None:
             db.close()
 
     app.dependency_overrides[get_db] = override_get_db
+
+    # Initialize sample data using FirearmService
+    test_db_session = TestSessionLocal()
+    try:
+        firearm_service = FirearmService(db_session=test_db_session)
+        firearm_service.initialize_sample_data()
+    finally:
+        test_db_session.close()
 
 
 @pytest.fixture

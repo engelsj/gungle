@@ -196,7 +196,7 @@ def test_game_completion_logic() -> None:
     wrong_name = next((name for name in available_names if name != target_name2), None)
 
     if wrong_name:
-        for i in range(5):
+        for _ in range(5):
             result = service.make_guess_by_name(session_id2, wrong_name)
 
         assert result.is_correct is False
