@@ -7,8 +7,8 @@ from sqlalchemy.orm import sessionmaker
 
 from src.gungle.database import Base, get_db
 from src.gungle.main import app
+from src.gungle.repositories.test_firearm_repository import TestFirearmRepository
 from src.gungle.services.firearm_service import FirearmService
-from tests.unit.test_firearm_repository import TestFirearmRepository
 
 
 @pytest.fixture(scope="session", autouse=True)

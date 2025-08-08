@@ -1,13 +1,7 @@
 from typing import List, Optional
 
-from ...src.gungle.models.firearm import (
-    ActionType,
-    Caliber,
-    Firearm,
-    FirearmType,
-    ModelType,
-)
-from ...src.gungle.repositories.firearm_repository import FirearmRepository
+from ..models.firearm import ActionType, Caliber, Firearm, FirearmType, ModelType
+from .firearm_repository import FirearmRepository
 
 
 class TestFirearmRepository(FirearmRepository):
